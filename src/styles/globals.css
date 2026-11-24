@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Tokens de design, guardados como trios RGB para que os modificadores de
+ * opacidade do Tailwind (bg-canvas/60, text-muted/80) continuem funcionando.
+ */
+:root {
+  --bg-primary: 18 17 22;        /* basalt       #121116 */
+  --bg-secondary: 27 26 33;      /* panel        #1B1A21 */
+  --surface: 36 34 43;           /* raised       #24222B */
+  --text-primary: 233 226 208;   /* limestone    #E9E2D0 */
+  --text-muted: 157 151 138;     /* weathered    #9D978A */
+  --accent-primary: 200 144 46;  /* ochre        #C8902E */
+  --accent-secondary: 158 47 42; /* crimson      #9E2F2A */
+  --border-subtle: 233 226 208;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-canvas font-sans text-ink;
+  }
+
+  ::selection {
+    background: rgb(var(--accent-primary) / 0.3);
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent-primary));
+    outline-offset: 4px;
+  }
+}
+
+/* Reserva global. Os componentes também checam useReducedMotion(). */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
