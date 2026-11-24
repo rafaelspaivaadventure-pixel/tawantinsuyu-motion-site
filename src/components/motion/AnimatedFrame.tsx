@@ -1,7 +1,15 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, type TargetAndTransition } from "framer-motion";
 import { EASE_EXPO_OUT } from "@/lib/motion-config";
+
+/*
+ * O Framer Motion anima `pathLength` em qualquer forma SVG, mas os tipos dele
+ * só reconhecem a propriedade em <path>. Por isso os estados do filete ficam
+ * aqui, com o tipo ajustado.
+ */
+const STROKE_HIDDEN = { pathLength: 0, opacity: 0 } as unknown as TargetAndTransition;
+const STROKE_DRAWN = { pathLength: 1, opacity: 0.85 } as unknown as TargetAndTransition;
 
 /** Cantos em degraus, inspirados na chakana (a cruz escalonada andina). */
 const CORNERS = [
@@ -30,8 +38,8 @@ export function AnimatedFrame() {
           className="fill-none stroke-accent"
           strokeWidth="1.5"
           vectorEffect="non-scaling-stroke"
-          initial={reduce ? false : { pathLength: 0, opacity: 0 }}
-          whileInView={{ pathLength: 1, opacity: 0.85 }}
+          initial={reduce ? false : STROKE_HIDDEN}
+          whileInView={STROKE_DRAWN}
           viewport={{ once: true, margin: "-10%" }}
           transition={{ duration: 1.8, ease: EASE_EXPO_OUT }}
         />
